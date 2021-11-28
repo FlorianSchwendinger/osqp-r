@@ -10,13 +10,19 @@
 set -e
 set -x
 
+R_FOUND=TRUE
+R_ROOT_DIR=${R_HOME}
+R_EXEC=${R_HOME}/bin/R
+R_INCLUDE_DIRS=${R_INCLUDE_DIR}
+R_ADRESS_INFO="-DR_FOUND=TRUE -DR_EXEC=${R_EXEC} -DR_ROOT_DIR=${R_ROOT_DIR} -DR_INCLUDE_DIRS=${R_INCLUDE_DIRS}"
+
 if [ -x "$(command -v cmake)" ]; then
 
 	echo "-- Trying to build libosqp.a via cmake ..."
 	cd src/osqp_sources
 	mkdir -p build
 	cd build
-	cmake -DR_LANG=TRUE -DCMAKE_INSTALL_PREFIX:PATH=../../ ..
+	cmake -DR_LANG=TRUE ${R_ADRESS_INFO} -DCMAKE_INSTALL_PREFIX:PATH=../../ ..
 	cmake --build . --target install
 	cd ..
 	rm -rf build/
